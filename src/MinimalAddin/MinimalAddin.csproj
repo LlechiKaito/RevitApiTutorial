@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Revit 2026 は .NET 8.0 を使用 -->
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+
+    <!-- WPF UIコンポーネントを使用する場合 -->
+    <UseWPF>true</UseWPF>
+
+    <!-- Revitは64ビット必須 -->
+    <PlatformTarget>x64</PlatformTarget>
+
+    <!-- C# 最新機能を使用 -->
+    <LangVersion>latest</LangVersion>
+
+    <!-- Null参照チェック有効化（推奨） -->
+    <Nullable>enable</Nullable>
+
+    <!-- 暗黙的using無効化（明示的なusing推奨） -->
+    <ImplicitUsings>disable</ImplicitUsings>
+
+    <!-- WSL環境からWindows向けビルドを可能にする -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <!-- Revit API パッケージ参照 -->
+  <ItemGroup>
+    <PackageReference Include="RevitMCPSDK" Version="2026.0.0.5" />
+  </ItemGroup>
+
+  <!-- ビルド後にRevitアドインフォルダへ自動コピー -->
+  <Target Name="CopyAddIn" AfterTargets="Build">
+    <PropertyGroup>
+      <AddInDir>C:\ProgramData\Autodesk\Revit\Addins\2026\</AddInDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <FilesToCopy Include="$(TargetDir)*.dll" />
+    </ItemGroup>
+    <MakeDir Directories="$(AddInDir)" Condition="!Exists('$(AddInDir)')" />
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(AddInDir)" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="$(ProjectDir)MinimalAddin.addin"
+          DestinationFiles="$(AddInDir)MinimalAddin.addin"
+          SkipUnchangedFiles="false" />
+  </Target>
+</Project>
