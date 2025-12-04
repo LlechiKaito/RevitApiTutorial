@@ -17,4 +17,13 @@
     <VendorId>Tutorial</VendorId>
     <VendorDescription>Hello World Command</VendorDescription>
   </AddIn>
+
+  <AddIn Type="Command">
+    <Name>Create Wall</Name>
+    <Assembly>MinimalAddin.dll</Assembly>
+    <AddInId>B2C3D4E5-F6A7-8901-BCDE-F12345678902</AddInId>
+    <FullClassName>MinimalAddin.CreateWallCommand</FullClassName>
+    <VendorId>Tutorial</VendorId>
+    <VendorDescription>Create Wall Command</VendorDescription>
+  </AddIn>
 </RevitAddIns>
